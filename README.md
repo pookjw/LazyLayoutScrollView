@@ -1,5 +1,5 @@
 # LazyLayoutScrollView
 
-Implementing Lazy Loading View on SwiftUI Layout
+Implementing Lazy Loading View on SwiftUI Layout.
 
 ![](image.png)
