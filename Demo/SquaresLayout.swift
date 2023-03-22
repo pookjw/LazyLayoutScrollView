@@ -100,9 +100,11 @@ extension SquaresLayout: LazyLayoutScrollViewProtocol {
         let column: Int = column(viewWidth: correctedFrame.size.width)
         let preferredItemLength: CGFloat = preferredItemLength(viewWidth: correctedFrame.size.width, column: column)
         let row: Int = index / column
-        let yOffset: CGFloat = preferredItemLength * CGFloat(row) + preferredItemLength
+        let yOffset: CGFloat = preferredItemLength * CGFloat(row)
         
-        let isVisible: Bool = (yOffset >= (correctedFrame.origin.y - safeAreaInsets.top)) && ((yOffset - preferredItemLength) <= (correctedFrame.origin.y + correctedFrame.size.height + safeAreaInsets.bottom))
+        let isVisible: Bool = ((yOffset + preferredItemLength) >= (correctedFrame.origin.y - safeAreaInsets.top)) && (yOffset <= (correctedFrame.origin.y + correctedFrame.size.height + safeAreaInsets.bottom))
+        
+        print(frame)
         
         return isVisible
     }

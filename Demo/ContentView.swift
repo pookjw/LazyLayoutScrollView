@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        LazyLayoutScrollView(data: 0..<1_000) {
+        LazyLayoutScrollView(data: 0..<3_000) {
             SquaresLayout(maxItemLength: .constant(150))
         } content: { index, isVisible in
             if isVisible {
