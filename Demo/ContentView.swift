@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         LazyLayoutScrollView(data: 0..<3_000) {
-            SquaresLayout(maxItemLength: .constant(150))
+            SquaresLayout(maxItemLength: .constant(80))
         } content: { index, isVisible in
             if isVisible {
                 StateColor()

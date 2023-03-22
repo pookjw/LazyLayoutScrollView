@@ -104,8 +104,6 @@ extension SquaresLayout: LazyLayoutScrollViewProtocol {
         
         let isVisible: Bool = ((yOffset + preferredItemLength) >= (correctedFrame.origin.y - safeAreaInsets.top)) && (yOffset <= (correctedFrame.origin.y + correctedFrame.size.height + safeAreaInsets.bottom))
         
-        print(frame)
-        
         return isVisible
     }
 }
