@@ -19,9 +19,7 @@ struct LazyLayoutScrollView<Layout, Content>: View where Layout: LazyLayoutScrol
     private let data: Range<Int>
     private let layout: () -> Layout
     private let content: (Int, Bool) -> Content
-    @State private var frameBuffer: CGRect = .zero
-    @State private var sizeBuffer: CGSize = .zero
-    @State private var visibleCache: [Int: Bool] = .init()
+    @State private var isVisibleMap: [Bool] = .init()
     
     init(
         _ axes: Axis.Set = .vertical,
@@ -45,7 +43,7 @@ struct LazyLayoutScrollView<Layout, Content>: View where Layout: LazyLayoutScrol
                 layout
                     .callAsFunction {
                         ForEach(data, id: \.self) { index in
-                            let isVisible: Bool = layout.isSubviewVisible(index: index, frame: .init(origin: frameBuffer.origin, size: proxy.size), safeAreaInsets: proxy.safeAreaInsets)
+                            let isVisible: Bool = (isVisibleMap.count > index) ? isVisibleMap[index] : false
                             content(index, isVisible)
                         }
                     }
@@ -59,7 +57,20 @@ struct LazyLayoutScrollView<Layout, Content>: View where Layout: LazyLayoutScrol
                         }
                     }
                     .onPreferenceChange(CGRectValueKey.self) { frame in
-                        frameBuffer = frame
+                        isVisibleMap = data
+                            .map { index in
+                                let isVisible: Bool = layout
+                                    .isSubviewVisible(
+                                        index: index,
+                                        frame: .init(
+                                            origin: frame.origin,
+                                            size: proxy.size
+                                        ),
+                                        safeAreaInsets: proxy.safeAreaInsets
+                                    )
+                                
+                                return isVisible
+                            }
                     }
             }
             .coordinateSpace(name: coordinateSpaceName)
